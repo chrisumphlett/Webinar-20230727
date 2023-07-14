@@ -7,17 +7,17 @@ output: html_notebook
 
 ## All the code you need to create a classification tree on Titanic Survival data
 
-```{r , echo = FALSE, fig.height = 6, fig.width = 10}
-install.packages("tidyverse")
-install.packages("rpart")
-install.packages("rpart.plot")
+```{r , echo = FALSE, fig.height = 8, fig.width = 12}
+# install.packages("tidyverse")
+# install.packages("rpart")
+# install.packages("rpart.plot")
 library(tidyverse)
 library(rpart)
 library(rpart.plot)
 
 titanic <- read_csv("titanic.csv") %>%
   select(-Name, -Ticket, -Cabin) %>%
-  mutate(Survived = if_else(Survived == 1, "Lived", "Died"))
-tree <- rpart(as.factor(Survived) ~ ., titanic, control = rpart.control(cp = 0.001, minbucket = 20))
-rpart.plot(tree, type = 4, extra = 102)
+  mutate(Survived = as.factor(if_else(Survived == 1, "Lived", "Died")))
+tree <- rpart(Survived ~ ., titanic, control = rpart.control(cp = 0.001, minbucket = 20))
+rpart.plot(tree, type = 4, extra = 102, tweak = 1.1)
 ```
